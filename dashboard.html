@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Task Manager</title>
+  <title>Dashboard - Smart Productivity Web App</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="dashboard-page">
+  <!-- Navbar -->
   <nav class="navbar">
     <div class="navbar-container">
-      <h1 class="navbar-title">✓ Task Manager</h1>
+      <h1 class="navbar-title">✓ Smart Productivity</h1>
       <div class="navbar-actions">
         <button class="btn-icon" onclick="toggleTheme()" title="Toggle theme">
           <span id="theme-icon">🌙</span>
@@ -19,48 +20,119 @@
     </div>
   </nav>
 
+  <!-- Toast Notifications -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Dashboard Container -->
   <div class="dashboard-container">
+    
     <!-- Progress Section -->
     <div class="card progress-card">
-      <h2>Your Progress</h2>
+      <h2>📊 Your Progress</h2>
       <div class="progress-content">
         <div class="progress-circle">
           <span id="progress-percent">0%</span>
         </div>
-        <p id="progress-text">No tasks yet</p>
+        <div>
+          <p id="progress-text">No tasks yet</p>
+          <p id="motivational-message" class="motivational-msg">✨ Let's get started!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-icon">📋</div>
+        <div class="stat-content">
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-label">Total Tasks</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-content">
+          <div class="stat-value" id="stat-completed">0</div>
+          <div class="stat-label">Completed</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-content">
+          <div class="stat-value" id="stat-pending">0</div>
+          <div class="stat-label">Pending</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🔴</div>
+        <div class="stat-content">
+          <div class="stat-value" id="stat-priority">0</div>
+          <div class="stat-label">High Priority</div>
+        </div>
       </div>
     </div>
 
     <!-- Add Task Section -->
     <div class="card add-task-card">
-      <h2>Add New Task</h2>
+      <h2>➕ Add New Task</h2>
       <div class="add-task-form">
-        <div class="input-group">
-          <input type="text" id="taskInput" placeholder="What needs to be done?">
+        <input type="text" id="taskInput" placeholder="What needs to be done?" onkeypress="handleTaskInputKeypress(event)">
+        <div class="input-row">
           <input type="date" id="deadline">
+          <select id="priority" class="priority-select">
+            <option value="low">🟢 Low</option>
+            <option value="medium" selected>🟡 Medium</option>
+            <option value="high">🔴 High</option>
+          </select>
         </div>
         <button class="btn btn-primary btn-block" onclick="addTask()">+ Add Task</button>
       </div>
     </div>
 
-    <!-- Filter Section -->
-    <div class="card filter-card">
-      <h2>Filter Tasks</h2>
+    <!-- Search & Filter Section -->
+    <div class="card search-filter-card">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search tasks..." onkeyup="searchTasks()">
+      </div>
+      <h2 style="margin-top: 20px; margin-bottom: 12px;">Filter Tasks</h2>
       <div class="filter-buttons">
         <button class="btn btn-filter active" onclick="filterTasks('all')">All Tasks</button>
         <button class="btn btn-filter" onclick="filterTasks('pending')">Pending</button>
         <button class="btn btn-filter" onclick="filterTasks('completed')">Completed</button>
+        <button class="btn btn-filter" onclick="filterTasks('high')">🔴 High Priority</button>
       </div>
     </div>
 
     <!-- Task List Section -->
     <div class="card tasks-card">
-      <h2>Tasks</h2>
+      <h2>📝 Your Tasks</h2>
       <ul id="taskList" class="task-list">
         <li class="empty-state">
-          <p>No tasks yet. Add one to get started!</p>
+          <p>✨ No tasks yet. Add one to get started!</p>
         </li>
       </ul>
+    </div>
+  </div>
+
+  <!-- Edit Task Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeEditModal()">&times;</span>
+      <h2>Edit Task</h2>
+      <div class="modal-body">
+        <input type="text" id="editTaskText" placeholder="Task description" class="modal-input">
+        <input type="date" id="editTaskDeadline" class="modal-input">
+        <select id="editTaskPriority" class="modal-input">
+          <option value="low">🟢 Low</option>
+          <option value="medium">🟡 Medium</option>
+          <option value="high">🔴 High</option>
+        </select>
+        <div class="modal-buttons">
+          <button class="btn btn-primary" onclick="saveTaskEdit()">Save Changes</button>
+          <button class="btn btn-cancel" onclick="closeEditModal()">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
 
