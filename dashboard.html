@@ -1,34 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Task Manager</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="dashboard-page">
+  <nav class="navbar">
+    <div class="navbar-container">
+      <h1 class="navbar-title">✓ Task Manager</h1>
+      <div class="navbar-actions">
+        <button class="btn-icon" onclick="toggleTheme()" title="Toggle theme">
+          <span id="theme-icon">🌙</span>
+        </button>
+        <button class="btn btn-logout" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
 
-<div class="container">
-  <h2>📊 Productivity Dashboard</h2>
+  <div class="dashboard-container">
+    <!-- Progress Section -->
+    <div class="card progress-card">
+      <h2>Your Progress</h2>
+      <div class="progress-content">
+        <div class="progress-circle">
+          <span id="progress-percent">0%</span>
+        </div>
+        <p id="progress-text">No tasks yet</p>
+      </div>
+    </div>
 
-  <button onclick="toggleTheme()">🌙 Toggle Theme</button>
+    <!-- Add Task Section -->
+    <div class="card add-task-card">
+      <h2>Add New Task</h2>
+      <div class="add-task-form">
+        <div class="input-group">
+          <input type="text" id="taskInput" placeholder="What needs to be done?">
+          <input type="date" id="deadline">
+        </div>
+        <button class="btn btn-primary btn-block" onclick="addTask()">+ Add Task</button>
+      </div>
+    </div>
 
-  <h3 id="progress"></h3>
+    <!-- Filter Section -->
+    <div class="card filter-card">
+      <h2>Filter Tasks</h2>
+      <div class="filter-buttons">
+        <button class="btn btn-filter active" onclick="filterTasks('all')">All Tasks</button>
+        <button class="btn btn-filter" onclick="filterTasks('pending')">Pending</button>
+        <button class="btn btn-filter" onclick="filterTasks('completed')">Completed</button>
+      </div>
+    </div>
 
-  <input type="text" id="taskInput" placeholder="Enter task">
-  <input type="date" id="deadline">
-  <button onclick="addTask()">Add Task</button>
+    <!-- Task List Section -->
+    <div class="card tasks-card">
+      <h2>Tasks</h2>
+      <ul id="taskList" class="task-list">
+        <li class="empty-state">
+          <p>No tasks yet. Add one to get started!</p>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-  <br><br>
-
-  <button onclick="filterTasks('all')">All</button>
-  <button onclick="filterTasks('pending')">Pending</button>
-  <button onclick="filterTasks('completed')">Completed</button>
-
-  <ul id="taskList"></ul>
-
-  <br>
-  <button onclick="logout()">Logout</button>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
