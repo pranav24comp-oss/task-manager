@@ -45,3 +45,7 @@ li {
 #error {
   color: red;
 }
+
+li {
+  border-radius: 8px;
+}
